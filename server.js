@@ -4,6 +4,24 @@ service.use(express.json());
 const port = 5000;
 const WTF = 10; // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt#description
 
+const fs = require("fs");
+const mysql = require("mysql");
+
+const json = fs.readFileSync("credentials.json", "utf8");
+const credentials = JSON.parse(json);
+
+const connection = mysql.createConnection(credentials);
+connection.connect((error) => {
+  if (error) {
+    console.error(error);
+    process.exit(1);
+  }
+});
+
+// TODO: issue queries.
+
+connection.end();
+
 let humanNextId = 1;
 const humans = {
   [humanNextId]: {
